@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.joongbu.WebSNS.mapper.UserMapper">
+
+	<select id="detail" resultType="UserDto">
+			SELECT * FROM USER WHERE userNo=#{userNo}
+	</select>
+	
+	<insert id="insert" parameterType="UserDto">
+	INSERT INTO USER
+	(userId,nickname,pw,username,email)
+	VALUES
+	(#{userId} , #{nickname} , #{pw} , #{username} , #{email} )
+	</insert>
+	
+	<select id="login" resultType="UserDto">
+			SELECT * FROM USER 
+			WHERE userId=#{userId} AND pw=#{pw}
+	</select>
+	
+	<select id="findbyuserId" resultType="UserDto">
+			SELECT * FROM USER 
+			WHERE userId=#{userId}
+	</select>
+	
+	<select id="findbynickname" resultType="UserDto">
+			SELECT * FROM USER 
+			WHERE nickname=#{nickname}
+	</select>
+	
+	<select id="findbynicknameNotuserId" resultType="UserDto">
+			SELECT * FROM USER 
+			WHERE nickname=#{nickname} And Not userId=#{userId}
+	</select>
+	
+	<update id="update"  parameterType="UserDto">
+			UPDATE USER SET
+			content=#{content}, email=#{email}, imgPath=#{imgPath}, nickname=#{nickname}
+			WHERE userId=#{userId}
+	</update>
+	
+		<!-- 이메일 임시 비밀번호 전송 및 변경때 사용 -->
+		<update id="update1"  parameterType="UserDto"> 
+			UPDATE USER SET
+			pw=#{pw}
+			WHERE userId=#{userId}
+		</update>
+	
+		<!-- userNo으로 user 정보 찾기 -->
+	<select id="detailFindByUserNo" resultType="UserDto">
+		SELECT * FROM USER WHERE userNo=#{userNo}
+	</select>
+
+</mapper>
